@@ -11,6 +11,8 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State private var username: String = "Administrador" // Assuming the username is "Administrador"
+    @State private var showAlert = false
+    @ObservedObject var loginViewModel: LoginViewModel
 
     var body: some View {
         VStack {
@@ -51,9 +53,14 @@ struct HomeView: View {
             FooterView()
         }
         .navigationTitle("Usuarios")
-        .alert(item: $viewModel.errorMessage) { errorMessage in
-            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+        .onChange(of: viewModel.errorMessage) { errorMessage in
+            if errorMessage != nil {
+                showAlert = true
+            }
         }
+        .background(
+            AlertView(isPresented: $showAlert, title: "Error", message: viewModel.errorMessage ?? "")
+        )
     }
 
     private func logout() {

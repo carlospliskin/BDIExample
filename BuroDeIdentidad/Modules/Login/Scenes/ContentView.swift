@@ -21,14 +21,19 @@ struct ContentView: View {
     @State private var alertMessage = ""
     @State private var isRegistering = false
     @State private var isForgotPassword = false
-    
-    var body: some View{
+
+    var body: some View {
         NavigationView {
-            VStack() {
-                Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .frame(width: 100.0, height: 100, alignment: .top)
-                
+            VStack {
+                HStack {
+                    Spacer()
+                    Image(systemName: "person.crop.circle.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding()
+                }
+                .background(Color.gray.opacity(0.2))
+
                 Text("Inicia sesión")
                     .font(.title)
                     .fontWeight(.bold)
@@ -37,11 +42,11 @@ struct ContentView: View {
                 TextField("Correo", text: $email)
                     .autocapitalization(.none)
                     .padding()
-                    .background(RoundedRectangle(cornerRadius:6).stroke(Color(red: 107.0/255.0, green: 164.0/255.0, blue: 252.0/255.0), lineWidth: 2))
+                    .background(RoundedRectangle(cornerRadius: 6).stroke(Color.blue, lineWidth: 2))
                     .padding(.top, 0)
                 
-                HStack(spacing: 15){
-                    VStack{
+                HStack(spacing: 15) {
+                    VStack {
                         if visible {
                             TextField("Contraseña", text: $pass)
                                 .autocapitalization(.none)
@@ -59,8 +64,7 @@ struct ContentView: View {
                     }
                 }
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color(red: 107.0/255.0, green: 164.0/255.0, blue: 252.0/255.0), lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 6).stroke(Color.blue, lineWidth: 2))
                 .padding(.top, 10)
                 .onAppear {
                     if rememberPassword {
@@ -70,7 +74,6 @@ struct ContentView: View {
                     }
                 }
 
-                // Toggle "Recordar contraseña"
                 Toggle("Recordar contraseña", isOn: $rememberPassword)
                     .foregroundColor(.black)
                     .padding(.horizontal)
@@ -79,9 +82,8 @@ struct ContentView: View {
                         UserDefaults.standard.set(newValue, forKey: "rememberPassword")
                         rememberPassword = newValue
                     }
-                // Botón "Iniciar sesión"
+
                 Button(action: {
-                    // Lógica de inicio de sesión
                     if pass.isEmpty {
                         self.showAlert.toggle()
                         self.alertTitle = "Error de inicio de sesión"
@@ -112,8 +114,7 @@ struct ContentView: View {
                 
                 AlertView(isPresented: $showAlert, title: alertTitle, message: alertMessage)
                 
-                // Botón de registro
-                HStack(spacing: 5){
+                HStack(spacing: 5) {
                     Text("¿No tienes una cuenta?")
                     NavigationLink(destination: RegistrerView(), isActive: $isRegistering) {
                         EmptyView()
@@ -130,24 +131,26 @@ struct ContentView: View {
             }
             .padding(.horizontal, 25)
             .background(
-                NavigationLink(destination: HomeView(), isActive: $loginViewModel.isLoggedIn) {
+                NavigationLink(destination: HomeView(loginViewModel: loginViewModel), isActive: $loginViewModel.isLoggedIn) {
                     EmptyView()
                 }
-                    .hidden()
+                .hidden()
             )
         }
         .onAppear {
-              checkSession()
-          }
+            checkSession()
+        }
     }
+    
     private func checkSession() {
-          if let lastSessionDate = UserDefaults.standard.object(forKey: "lastSessionDate") as? Date {
-              if Date().timeIntervalSince(lastSessionDate) < 180 {
-                  loginViewModel.isLoggedIn = true
-              }
-          }
-      }
+        if let lastSessionDate = UserDefaults.standard.object(forKey: "lastSessionDate") as? Date {
+            if Date().timeIntervalSince(lastSessionDate) < 180 { // 3 minutes
+                loginViewModel.isLoggedIn = true
+            }
+        }
+    }
 }
+
 //#Preview {
 //    ContentView()
 //}
