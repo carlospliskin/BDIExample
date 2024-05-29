@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = HomeViewModel()
-    @State private var username: String = "Administrador" // Assuming the username is "Administrador"
-    @State private var showAlert = false
+    @ObservedObject var viewModel: HomeViewModel
     @ObservedObject var loginViewModel: LoginViewModel
+
+    @State private var showAlert = false
 
     var body: some View {
         VStack {
-            HeaderView(username: username) {
+            HeaderView(username: "Administrador") {
                 logout()
             }
             .padding(.bottom, 10)
@@ -30,7 +30,7 @@ struct HomeView: View {
             }
             
             Button(action: {
-                viewModel.fetchUser()
+                viewModel.fetchUsers()
             }) {
                 Text("Obtener Usuario")
                     .padding()
@@ -58,13 +58,12 @@ struct HomeView: View {
                 showAlert = true
             }
         }
-        .background(
-            AlertView(isPresented: $showAlert, title: "Error", message: viewModel.errorMessage ?? "")
-        )
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Error"), message: Text(viewModel.errorMessage ?? ""), dismissButton: .default(Text("Aceptar")))
+        }
     }
 
     private func logout() {
-        // Clear session and redirect to login
         UserDefaults.standard.removeObject(forKey: "lastSessionDate")
         loginViewModel.isLoggedIn = false
     }

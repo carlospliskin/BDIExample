@@ -32,7 +32,7 @@ struct FooterView: View {
 
     var body: some View {
         HStack {
-            Text("Participante: [Tu Nombre]")
+            Text("Participante: Admin")
             Spacer()
             Text(currentTime, style: .date)
             Text(currentTime, style: .time)
@@ -40,7 +40,6 @@ struct FooterView: View {
         .padding()
         .background(Color.gray.opacity(0.2))
         .onAppear {
-            // Actualiza el tiempo cada segundo
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 self.currentTime = Date()
             }

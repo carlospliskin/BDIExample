@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var visible = false
     @State private var rememberPassword = UserDefaults.standard.bool(forKey: "rememberPassword")
     @StateObject private var loginViewModel = LoginViewModel()
+    @StateObject private var homeViewModel = HomeViewModel()
     
     @State private var showAlert = false
     @State private var alertTitle = ""
@@ -25,15 +26,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    Spacer()
-                    Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .padding()
-                }
-                .background(Color.gray.opacity(0.2))
-
+                Image(systemName: "person.crop.circle.fill")
+                    .resizable()
+                    .frame(width: 100.0, height: 100, alignment: .top)
                 Text("Inicia sesión")
                     .font(.title)
                     .fontWeight(.bold)
@@ -64,7 +59,8 @@ struct ContentView: View {
                     }
                 }
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 6).stroke(Color.blue, lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color(red: 107.0/255.0, green: 164.0/255.0, blue: 252.0/255.0), lineWidth: 2))
                 .padding(.top, 10)
                 .onAppear {
                     if rememberPassword {
@@ -131,7 +127,7 @@ struct ContentView: View {
             }
             .padding(.horizontal, 25)
             .background(
-                NavigationLink(destination: HomeView(loginViewModel: loginViewModel), isActive: $loginViewModel.isLoggedIn) {
+                NavigationLink(destination: HomeView(viewModel: homeViewModel, loginViewModel: loginViewModel), isActive: $loginViewModel.isLoggedIn) {
                     EmptyView()
                 }
                 .hidden()
@@ -150,6 +146,7 @@ struct ContentView: View {
         }
     }
 }
+
 
 //#Preview {
 //    ContentView()

@@ -185,7 +185,6 @@
 		7A92C96B2C06EC2300FB0829 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				7A92C96F2C06EC6F00FB0829 /* Services */,
 				7A92C96E2C06EC6500FB0829 /* ViewModels */,
 				7A92C96D2C06EC5D00FB0829 /* Scenes */,
 			);
@@ -215,13 +214,6 @@
 				7A92C95A2C06E12000FB0829 /* loginViewModel.swift */,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		7A92C96F2C06EC6F00FB0829 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		7A92C9702C06ED1A00FB0829 /* Home */ = {

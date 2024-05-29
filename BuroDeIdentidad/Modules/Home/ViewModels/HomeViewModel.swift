@@ -7,40 +7,32 @@
 //
 
 import Foundation
-import SwiftUI
 import Combine
 
 class HomeViewModel: ObservableObject {
     @Published var users: [User] = []
     @Published var errorMessage: String?
     
-    func fetchUser() {
+    private var cancellable: AnyCancellable?
+    
+    func fetchUsers() {
         let url = URL(string: "https://randomuser.me/api/")!
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Failed to load user: \(error.localizedDescription)"
+        
+        cancellable = URLSession.shared.dataTaskPublisher(for: url)
+            .map { $0.data }
+            .decode(type: UserResponse.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                case .finished:
+                    break
                 }
-                return
-            }
-            
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    self.errorMessage = "No data received"
-                }
-                return
-            }
-            
-            do {
-                let userResponse = try JSONDecoder().decode(UserResponse.self, from: data)
-                DispatchQueue.main.async {
-                    self.users.append(contentsOf: userResponse.results)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Failed to decode user: \(error.localizedDescription)"
-                }
-            }
-        }.resume()
+            }, receiveValue: { response in
+                // Reiniciar la lista de usuarios antes de agregar los nuevos usuarios
+                self.users.removeAll()
+                self.users.append(contentsOf: response.results)
+            })
     }
 }//class

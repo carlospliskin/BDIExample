@@ -11,6 +11,7 @@ import SwiftUI
 struct BuroDeIdentidadApp: App {
     var body: some Scene {
         WindowGroup {
-            splashView()        }
+            splashView()    
+        }
     }
 }

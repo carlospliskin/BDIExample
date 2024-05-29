@@ -12,7 +12,7 @@ struct User: Codable, Identifiable {
     var name: Name
     var location: Location
     var email: String
-
+    
     struct Name: Codable {
         var title: String
         var first: String
@@ -20,10 +20,16 @@ struct User: Codable, Identifiable {
     }
 
     struct Location: Codable {
+        var street: Street
         var city: String
         var state: String
         var country: String
         var postcode: String
+        
+        struct Street: Codable {
+            var number: Int
+            var name: String
+        }
     }
 }
 
