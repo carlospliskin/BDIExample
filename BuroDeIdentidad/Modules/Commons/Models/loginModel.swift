@@ -8,14 +8,7 @@
 
 import Foundation
 
-/// Description: model with the information that should be shown in the view 
-/// (the information is previously mapped to generate the model with the information that is needed in the view)
-struct loginVM {
-    let id: Int
-}
-
-/// Description: model with the information that was obtained from the ws
-/// Note: the model must be moved to the Entities folder
-struct loginEntity : Codable {
-    let id: Int
+struct LoginModel {
+    var username: String
+    var password: String
 }
