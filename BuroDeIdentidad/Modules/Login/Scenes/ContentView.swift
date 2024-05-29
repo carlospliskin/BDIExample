@@ -81,9 +81,7 @@ struct ContentView: View {
 
                 Button(action: {
                     if pass.isEmpty {
-                        self.showAlert.toggle()
-                        self.alertTitle = "Error de inicio de sesión"
-                        self.alertMessage = "Por favor, introduce tu contraseña"
+                        self.loginViewModel.errorMessage = "Por favor, introduce tu contraseña"
                         return
                     }
                     if email.isValidEmail() {
@@ -92,9 +90,7 @@ struct ContentView: View {
                         }
                         self.loginViewModel.login(username: email, password: pass)
                     } else {
-                        self.showAlert.toggle()
-                        self.alertTitle = "Error de inicio de sesión"
-                        self.alertMessage = "Correo electrónico no válido"
+                        self.loginViewModel.errorMessage = "Correo electrónico no válido"
                     }
                 }) {
                     Text("Iniciar sesión")
@@ -107,9 +103,13 @@ struct ContentView: View {
                 .padding(.top, 15)
                 .padding(.horizontal, 25)
                 .navigationBarHidden(true)
-                
-                AlertView(isPresented: $showAlert, title: alertTitle, message: alertMessage)
-                
+                .alert(isPresented: Binding<Bool>(
+                    get: { loginViewModel.errorMessage != nil },
+                    set: { _ in loginViewModel.errorMessage = nil }
+                )) {
+                    Alert(title: Text("Error de inicio de sesión"), message: Text(loginViewModel.errorMessage ?? ""), dismissButton: .default(Text("Aceptar")))
+                }
+
                 HStack(spacing: 5) {
                     Text("¿No tienes una cuenta?")
                     NavigationLink(destination: RegistrerView(), isActive: $isRegistering) {
