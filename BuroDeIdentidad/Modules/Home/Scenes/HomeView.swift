@@ -21,6 +21,7 @@ struct HomeView: View {
             }
             .padding(.bottom, 10)
             
+            // Imagen de perfil del usuario
             HStack {
                 Spacer()
                 Image(systemName: "person.crop.circle.fill")
@@ -29,6 +30,7 @@ struct HomeView: View {
                     .padding()
             }
             
+            // Botón para obtener usuarios
             Button(action: {
                 viewModel.fetchUsers()
             }) {
@@ -40,6 +42,7 @@ struct HomeView: View {
             }
             .padding()
 
+            // Lista de usuarios
             List(viewModel.users) { user in
                 NavigationLink(destination: EditUserView(user: user)) {
                     VStack(alignment: .leading) {
@@ -50,6 +53,8 @@ struct HomeView: View {
                     }
                 }
             }
+            
+            // Footer
             FooterView()
         }
         .navigationTitle("Usuarios")

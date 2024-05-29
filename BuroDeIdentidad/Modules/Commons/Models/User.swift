@@ -21,18 +21,44 @@ struct User: Codable, Identifiable {
 
     struct Location: Codable {
         var street: Street
-        var city: String
-        var state: String
-        var country: String
-        var postcode: String
+        var city: String?
+        var state: String?
+        var country: String?
+        var postcode: Postcode
         
         struct Street: Codable {
-            var number: Int
-            var name: String
+            var number: Int?
+            var name: String?
         }
     }
 }
 
 struct UserResponse: Codable {
     let results: [User]
+}
+
+enum Postcode: Codable {
+    case int(Int)
+    case string(String)
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let intValue = try? container.decode(Int.self) {
+            self = .int(intValue)
+        } else if let stringValue = try? container.decode(String.self) {
+            self = .string(stringValue)
+        } else {
+            throw DecodingError.typeMismatch(Postcode.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected Int or String"))
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .int(let intValue):
+            try container.encode(intValue)
+        case .string(let stringValue):
+            try container.encode(stringValue)
+        }
+    }
 }

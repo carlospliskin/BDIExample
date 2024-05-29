@@ -36,20 +36,49 @@ struct EditUserView: View {
                 }
                 
                 Section(header: Text("Dirección")) {
-                    TextField("Ciudad", text: $user.location.city)
-                        .keyboardType(.alphabet)
-                    TextField("Estado", text: $user.location.state)
-                        .keyboardType(.alphabet)
-                    TextField("País", text: $user.location.country)
-                        .keyboardType(.alphabet)
-                    TextField("Código Postal", text: $user.location.postcode)
-                        .keyboardType(.numberPad)
+                    TextField("Ciudad", text: Binding(
+                        get: { user.location.city ?? "" },
+                        set: { user.location.city = $0 }
+                    ))
+                    .keyboardType(.alphabet)
+                    
+                    TextField("Estado", text: Binding(
+                        get: { user.location.state ?? "" },
+                        set: { user.location.state = $0 }
+                    ))
+                    .keyboardType(.alphabet)
+                    
+                    TextField("País", text: Binding(
+                        get: { user.location.country ?? "" },
+                        set: { user.location.country = $0 }
+                    ))
+                    .keyboardType(.alphabet)
+                    
+                    TextField("Código Postal", text: Binding(
+                        get: {
+                            if case .string(let stringValue) = user.location.postcode {
+                                return stringValue
+                            } else {
+                                return ""
+                            }
+                        },
+                        set: { newValue in
+                            user.location.postcode = .string(newValue)
+                        }
+                    ))
+                    .keyboardType(.numberPad)
                 }
                 
                 Section(header: Text("Correo Electrónico")) {
                     TextField("Email", text: $user.email)
                         .keyboardType(.emailAddress)
                 }
+            }
+            .onAppear {
+                updateTime()
+            }
+            .onReceive(timer) { _ in
+                updateTime()
             }
             
             Spacer()
@@ -67,10 +96,10 @@ struct EditUserView: View {
             }
             .padding()
         }
+        .padding()
     }
     
     private func updateTime() {
-        let currentDate = Date()
         dateFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
     }
     
@@ -87,5 +116,3 @@ extension EditUserView {
         _user = State(initialValue: user)
     }
 }
-
-
