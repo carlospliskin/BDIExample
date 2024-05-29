@@ -9,21 +9,21 @@ import SwiftUI
 
 struct EditUserView: View {
     @State var user: User
+    var onSave: (User) -> Void
     
     var body: some View {
+        HStack {
+            Text("Editar Usuario")
+                .font(.largeTitle)
+                .padding()
+            
+            
+            Image(systemName: "pencil.circle")
+                .resizable()
+                .frame(width: 40, height: 40)
+                .padding()
+        }
         VStack {
-            HStack {
-                Text("Editar Usuario")
-                    .font(.largeTitle)
-                    .padding()
-                
-                Spacer()
-                
-                Image(systemName: "pencil.circle")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .padding()
-            }
             
             Form {
                 Section(header: Text("Nombre")) {
@@ -95,6 +95,9 @@ struct EditUserView: View {
                 Spacer()
             }
             .padding()
+            .onDisappear {
+                onSave(user)
+            }
         }
         .padding()
     }
@@ -112,7 +115,8 @@ struct EditUserView: View {
 }
 
 extension EditUserView {
-    init(user: User) {
-        _user = State(initialValue: user)
+    init(user: User, onSave: @escaping (User) -> Void) {
+        self._user = State(initialValue: user)
+        self.onSave = onSave
     }
 }

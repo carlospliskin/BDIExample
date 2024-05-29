@@ -140,13 +140,18 @@ struct ContentView: View {
     
     private func checkSession() {
         if let lastSessionDate = UserDefaults.standard.object(forKey: "lastSessionDate") as? Date {
-            if Date().timeIntervalSince(lastSessionDate) < 180 { // 3 minutes
-                loginViewModel.isLoggedIn = true
+            let currentTime = Date()
+            let timeDifference = currentTime.timeIntervalSince(lastSessionDate)
+            let timeLimit: TimeInterval = 180 // 3 minutes
+            
+            if timeDifference > timeLimit {
+                showAlert = true
+                alertTitle = "Sesión Expirada"
+                alertMessage = "Ha pasado mucho tiempo desde la última sesión. Por favor, inicia sesión nuevamente."
             }
         }
     }
 }
-
 
 //#Preview {
 //    ContentView()

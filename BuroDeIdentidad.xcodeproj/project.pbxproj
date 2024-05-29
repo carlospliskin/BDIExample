@@ -27,6 +27,7 @@
 		7A92C9902C06F65900FB0829 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A92C98F2C06F65800FB0829 /* User.swift */; };
 		7A92C9942C06FAC400FB0829 /* HeaderFooterViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A92C9932C06FAC400FB0829 /* HeaderFooterViews.swift */; };
 		7A92C9962C06FAFA00FB0829 /* editUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A92C9952C06FAFA00FB0829 /* editUserView.swift */; };
+		7AB24AA02C07DF7A00EF8526 /* userManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB24A9F2C07DF7A00EF8526 /* userManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		7A92C98F2C06F65800FB0829 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7A92C9932C06FAC400FB0829 /* HeaderFooterViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderFooterViews.swift; sourceTree = "<group>"; };
 		7A92C9952C06FAFA00FB0829 /* editUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editUserView.swift; sourceTree = "<group>"; };
+		7AB24A9F2C07DF7A00EF8526 /* userManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 		7A92C9632C06EB0F00FB0829 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7AB24A9F2C07DF7A00EF8526 /* userManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				7A92C94D2C06E10300FB0829 /* ContentView.swift in Sources */,
 				7A92C9902C06F65900FB0829 /* User.swift in Sources */,
 				7A92C9602C06EAF200FB0829 /* KeychainManager.swift in Sources */,
+				7AB24AA02C07DF7A00EF8526 /* userManager.swift in Sources */,
 				7A92C9692C06EBB900FB0829 /* AlertView.swift in Sources */,
 				7A92C9752C06EE5400FB0829 /* String+validations.swift in Sources */,
 				7A92C95C2C06E12000FB0829 /* loginModel.swift in Sources */,

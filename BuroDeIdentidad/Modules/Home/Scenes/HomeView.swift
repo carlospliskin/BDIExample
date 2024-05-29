@@ -11,8 +11,9 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @ObservedObject var loginViewModel: LoginViewModel
-
+    
     @State private var showAlert = false
+    @State private var selectedUser: User?
 
     var body: some View {
         VStack {
@@ -21,16 +22,18 @@ struct HomeView: View {
             }
             .padding(.bottom, 10)
             
-            // Imagen de perfil del usuario
             HStack {
+                Text("Usuarios")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
                 Spacer()
                 Image(systemName: "person.crop.circle.fill")
                     .resizable()
                     .frame(width: 50, height: 50)
                     .padding()
             }
-            
-            // Botón para obtener usuarios
+
+            // Move the button here, outside of the VStack
             Button(action: {
                 viewModel.fetchUsers()
             }) {
@@ -42,9 +45,13 @@ struct HomeView: View {
             }
             .padding()
 
-            // Lista de usuarios
             List(viewModel.users) { user in
-                NavigationLink(destination: EditUserView(user: user)) {
+                NavigationLink(destination: EditUserView(user: user, onSave: { updatedUser in
+                    // Update user in the list
+                    if let index = viewModel.users.firstIndex(where: { $0.id == updatedUser.id }) {
+                        viewModel.users[index] = updatedUser
+                    }
+                })) {
                     VStack(alignment: .leading) {
                         Text("\(user.name.title) \(user.name.first) \(user.name.last)")
                             .font(.headline)
@@ -52,8 +59,11 @@ struct HomeView: View {
                             .font(.subheadline)
                     }
                 }
+                .onTapGesture {
+                    selectedUser = user // Asigna el usuario seleccionado
+                }
             }
-            
+
             // Footer
             FooterView()
         }
@@ -73,7 +83,3 @@ struct HomeView: View {
         loginViewModel.isLoggedIn = false
     }
 }
-
-//#Preview {
-//    HomeView()
-//}

@@ -25,16 +25,13 @@ class HomeViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
-                    // Imprime el error para entender su naturaleza
                     print("Error fetching users:", error)
                     self.errorMessage = error.localizedDescription
                 case .finished:
                     break
                 }
             }, receiveValue: { response in
-                // No eliminamos los usuarios existentes, simplemente agregamos los nuevos
                 self.users.append(contentsOf: response.results)
             })
     }
-
 }//class
