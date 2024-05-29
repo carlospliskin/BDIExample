@@ -9,7 +9,16 @@
 import Foundation
 import SwiftUI
 
-class loginViewModel: ObservableObject {
-
+class LoginViewModel: ObservableObject {
+    @Published var isLoggedIn = false
+    @Published var error: String?
     
-}//class
+    func login(username: String, password: String) {
+        if username == "Administrador" && password == "Admin123" {
+            UserDefaults.standard.set(Date(), forKey: "lastSessionDate")
+            self.isLoggedIn = true
+        } else {
+            // Handle login failure
+        }
+    }
+}
