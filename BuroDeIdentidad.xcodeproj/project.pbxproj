@@ -89,7 +89,6 @@
 				7A92C94A2C06E10300FB0829 /* BuroDeIdentidadApp.swift */,
 				7A92C9662C06EB3100FB0829 /* Resources */,
 				7A92C9612C06EAFC00FB0829 /* Modules */,
-				7A92C95E2C06EADA00FB0829 /* Persistence */,
 				7A92C9502C06E10600FB0829 /* Preview Content */,
 			);
 			path = BuroDeIdentidad;
@@ -136,6 +135,7 @@
 		7A92C9632C06EB0F00FB0829 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7A92C95E2C06EADA00FB0829 /* Persistence */,
 				7AB24A9F2C07DF7A00EF8526 /* userManager.swift */,
 			);
 			path = Helpers;

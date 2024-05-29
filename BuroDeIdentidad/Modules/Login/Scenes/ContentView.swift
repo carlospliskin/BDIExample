@@ -109,6 +109,14 @@ struct ContentView: View {
                 )) {
                     Alert(title: Text("Error de inicio de sesión"), message: Text(loginViewModel.errorMessage ?? ""), dismissButton: .default(Text("Aceptar")))
                 }
+                if loginViewModel.isLoading {
+                    ZStack {
+                        Color.white.opacity(0.5) 
+                            .edgesIgnoringSafeArea(.all)
+                        ProgressView("Cargando...")
+                            .padding(.top, 15)
+                    }
+                }
 
                 HStack(spacing: 5) {
                     Text("¿No tienes una cuenta?")
